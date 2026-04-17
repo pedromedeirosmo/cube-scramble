@@ -27,10 +27,15 @@ export default function App() {
     "F2",
     "B2",
   ];
+  const [movements, setMoves] = useState(20);
 
-  function newScramble() {
+  function updatingMovements(numberMovements) {
+    setMoves(numberMovements);
+  }
+
+  const newScramble = (movements) => {
     const scrambling = [];
-    while (scrambling.length < 20) {
+    while (scrambling.length < movements) {
       const randomNumber = Math.floor(Math.random() * 18);
 
       const ultimo = scrambling[scrambling.length - 1];
@@ -60,9 +65,12 @@ export default function App() {
       }
     }
     setScramble(scrambling);
-  }
+  };
+
   useEffect(() => {
-    newScramble();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    newScramble(movements);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -72,9 +80,9 @@ export default function App() {
     >
       <Timer />
       <Header />
-      <ScrambleDisplay scramble={scramble} />
-      <ScrambleLenght />
-      <NewScramble newScramble={newScramble} />
+      <ScrambleDisplay scramble={scramble} movements={movements} />
+      <ScrambleLenght updatingMovements={updatingMovements} />
+      <NewScramble newScramble={newScramble} movements={movements} />
       <p className="text-gray-700 text-xs mt-8">
         Pressione ESPAÇO para iniciar/parar o timer
       </p>
