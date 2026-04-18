@@ -1,37 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Timer() {
-  const [gettingReady, setGettingReady] = useState({
-    notPressing: true,
-    preparing: false,
-    ready: false,
-  });
-  const [timer, setTimer] = useState((0.0).toFixed(2));
+  const [status, setStatus] = useState("idle");
+  const [timer, setTimer] = useState(0);
+  const [running, setRunning] = useState(false);
+  const timeoutRef = useRef(null);
+
+  function startPress() {
+    if (running) {
+      // parar timer
+      setRunning(false);
+      return;
+    }
+    setStatus("preparing");
+
+    // depois de 1s vira verde
+    timeoutRef.current = setTimeout(() => {
+      setStatus("ready");
+    }, 500);
+  }
+
+  function endPress() {
+    clearTimeout(timeoutRef.current); // cancela se soltar antes
+    if (status === "ready") {
+      setRunning(true);
+      setTimer(0);
+      setStatus("idle");
+    } else {
+      setStatus("idle");
+    }
+  }
 
   useEffect(() => {
-    let timeout;
-
     function handleKeyDown(e) {
       if (e.code === "Space" && !e.repeat) {
-        // virou vermelho
-        setGettingReady({ notPressing: false, preparing: true, ready: false });
-
-        // depois de 1s vira verde
-        timeout = setTimeout(() => {
-          setGettingReady({
-            notPressing: false,
-            preparing: false,
-            ready: true,
-          });
-        }, 1000);
+        startPress();
       }
     }
 
     function handleKeyUp(e) {
       if (e.code === "Space") {
-        clearTimeout(timeout); // cancela se soltar antes
-
-        setGettingReady({ notPressing: true, preparing: false, ready: false });
+        endPress();
       }
     }
 
@@ -42,27 +51,49 @@ export default function Timer() {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, []);
+  }, [status, running]);
+
+  useEffect(() => {
+    let interval;
+    if (running) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev + 10);
+      }, 10);
+    }
+    return () => clearInterval(interval);
+  }, [running]);
 
   function bgColor() {
-    if (gettingReady.notPressing === true) {
-      return "bg-amber-400";
-    } else if (gettingReady.preparing === true) {
-      return "bg-red-700";
-    } else if (gettingReady.ready === true) {
-      return "bg-green-800";
-    }
+    if (status === "idle") return "bg-amber-400";
+    if (status === "preparing") return "bg-red-700";
+    if (status === "ready") return "bg-green-800";
+  }
+  function textColor() {
+    if (status === "idle") return "text-white";
+    if (status === "preparing") return "text-red-700";
+    if (status === "ready") return "text-green-800";
   }
 
+  const formattedTime = (timer / 1000).toFixed(2);
+
   return (
-    <div className="flex items-center justify-center mb-5 w-full max-w-md">
+    <div
+      className="flex items-center justify-center mb-5 w-full max-w-md"
+      onTouchStart={(e) => {
+        e.preventDefault();
+        startPress();
+      }}
+      onTouchEnd={endPress}
+    >
       <div
         className={`hidden sm:flex w-fit h-fit p-3.5 rounded-full ${bgColor()}`}
       >
         <img src="/left-hand.png" alt="left hand" className="size-20" />
       </div>
-      <div className="text-6xl leading-none font-[Digital] text-center flex-1">
-        {timer}
+      <div
+        className={`text-8xl sm:text-6xl leading-none font-[Digital] text-center flex-1 sm:text-white ${textColor()} select-none`}
+      >
+        {formattedTime}
       </div>
       <div
         className={`hidden sm:flex w-fit h-fit p-3.5 rounded-full ${bgColor()}`}
