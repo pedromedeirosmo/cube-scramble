@@ -78,8 +78,8 @@ export default function App() {
       className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center p-6"
       style={{ fontFamily: "'Courier New', monospace" }}
     >
-      <Timer />
       <Header />
+      <Timer />
       <ScrambleDisplay scramble={scramble} movements={movements} />
       <ScrambleLenght updatingMovements={updatingMovements} />
       <NewScramble newScramble={newScramble} movements={movements} />

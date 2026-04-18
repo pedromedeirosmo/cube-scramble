@@ -5,7 +5,7 @@ export default function Header() {
         {["R", "U", "B", "I", "K"].map((l, i) => (
           <span
             key={i}
-            className={`text-3xl font-black px-1 ${
+            className={`text-5xl font-black px-1 ${
               [
                 "text-red-400",
                 "text-amber-400",
