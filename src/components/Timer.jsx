@@ -74,7 +74,9 @@ export default function Timer() {
     if (status === "ready") return "text-green-800";
   }
 
-  const formattedTime = (timer / 1000).toFixed(2);
+  const formattedTime = (timer / 1000)
+    .toFixed(running ? 1 : 2)
+    .replace(".", ",");
 
   return (
     <div
