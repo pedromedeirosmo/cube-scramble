@@ -3,8 +3,19 @@ import { useEffect, useRef, useState } from "react";
 export default function Timer() {
   const [status, setStatus] = useState("idle");
   const [timer, setTimer] = useState(0);
+  const [bestTime, setBestTime] = useState(null);
   const [running, setRunning] = useState(false);
   const timeoutRef = useRef(null);
+
+  function saveBestTime(time) {
+    let newTime = time / 1000;
+    if (bestTime === null) {
+      // Nao tiver valor ainda
+      setBestTime(newTime);
+    } else if (newTime < bestTime) {
+      setBestTime(newTime);
+    }
+  }
 
   function startPress() {
     if (running) {
@@ -51,6 +62,7 @@ export default function Timer() {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, running]);
 
   useEffect(() => {
@@ -62,6 +74,14 @@ export default function Timer() {
     }
     return () => clearInterval(interval);
   }, [running]);
+
+  useEffect(() => {
+    if (!running && timer > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      saveBestTime(timer);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [running, timer]);
 
   function bgColor() {
     if (status === "idle") return "bg-amber-400";
@@ -92,11 +112,19 @@ export default function Timer() {
       >
         <img src="/left-hand.png" alt="left hand" className="size-20" />
       </div>
-      <div
-        className={`text-8xl sm:text-6xl leading-none font-[Digital] text-center flex-1 sm:text-white ${textColor()} select-none`}
-      >
-        {formattedTime}
+      <div className="text-center flex-1">
+        <div
+          className={`text-8xl sm:text-6xl leading-none font-[Digital] sm:text-white ${textColor()} select-none`}
+        >
+          {formattedTime}
+        </div>
+        {bestTime !== null && (
+          <div className="text-sm text-gray-400 mt-1">
+            BEST TIME: {bestTime.toFixed(2).replace(".", ",")}
+          </div>
+        )}
       </div>
+
       <div
         className={`hidden sm:flex w-fit h-fit p-3.5 rounded-full ${bgColor()}`}
       >
