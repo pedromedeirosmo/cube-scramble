@@ -6,7 +6,7 @@ export default function ScrambleDisplay({ updatingMovements }) {
         {[10, 15, 20, 25, 30].map((len, i) => (
           <button
             key={len}
-            className={`px-3 py-1 rounded text-sm font-mono transition-all text-gray-900 font-bold hover:scale-105 hover:cursor-pointer active:scale-110 ${
+            className={`px-3 py-1 rounded text-sm font-mono transition-all text-gray-900 font-bold hover:scale-105 hover:cursor-pointer active:scale-95 ${
               [
                 "bg-red-400",
                 "bg-amber-400",
