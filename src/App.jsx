@@ -103,7 +103,7 @@ export default function App() {
       <p className="text-gray-600 text-xs mt-8 hidden sm:block">
         Pressione ESPAÇO para iniciar/parar o timer
       </p>
-      <p className="text-gray-600 text-xs mt-8 block sm:hidden">
+      <p className="text-gray-600 text-xs mt-8 block sm:hidden text-balance text-center">
         Pressione o CONTADOR para iniciar/parar o timer
       </p>
     </div>
