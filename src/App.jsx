@@ -4,6 +4,7 @@ import Timer from "./components/Timer";
 import ScrambleLenght from "./components/ScrambleLength";
 import NewScramble from "./components/NewScramble";
 import { useEffect, useState } from "react";
+import BestTimes from "./components/BestTimes";
 
 export default function App() {
   const [scramble, setScramble] = useState([]);
@@ -73,14 +74,30 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const [times, setTimes] = useState([]);
+  const [bestTime, setBestTime] = useState(null);
+
+  function saveBestTime(time) {
+    let newTime = time / 1000;
+    setTimes((prev) => [newTime, ...prev]);
+
+    if (bestTime === null) {
+      // Nao tiver valor ainda
+      setBestTime(newTime);
+    } else if (newTime < bestTime) {
+      setBestTime(newTime);
+    }
+  }
+
   return (
     <div
       className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center p-6"
       style={{ fontFamily: "'Courier New', monospace" }}
     >
       <Header />
-      <Timer />
+      <Timer times={times} saveBestTime={saveBestTime} />
       <ScrambleDisplay scramble={scramble} movements={movements} />
+      <BestTimes times={times} bestTime={bestTime} />
       <ScrambleLenght updatingMovements={updatingMovements} />
       <NewScramble newScramble={newScramble} movements={movements} />
       <p className="text-gray-600 text-xs mt-8 hidden sm:block">

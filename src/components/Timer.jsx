@@ -1,21 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function Timer() {
+export default function Timer({ saveBestTime }) {
   const [status, setStatus] = useState("idle");
   const [timer, setTimer] = useState(0);
-  const [bestTime, setBestTime] = useState(null);
   const [running, setRunning] = useState(false);
   const timeoutRef = useRef(null);
-
-  function saveBestTime(time) {
-    let newTime = time / 1000;
-    if (bestTime === null) {
-      // Nao tiver valor ainda
-      setBestTime(newTime);
-    } else if (newTime < bestTime) {
-      setBestTime(newTime);
-    }
-  }
 
   function startPress() {
     if (running) {
@@ -77,7 +66,6 @@ export default function Timer() {
 
   useEffect(() => {
     if (!running && timer > 0) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       saveBestTime(timer);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -118,11 +106,6 @@ export default function Timer() {
         >
           {formattedTime}
         </div>
-        {bestTime !== null && (
-          <div className="text-sm text-gray-400 mt-1">
-            BEST TIME: {bestTime.toFixed(2).replace(".", ",")}
-          </div>
-        )}
       </div>
 
       <div

@@ -5,3 +5,14 @@
   src: url("./assets/fonts/DS-DIGI.TTF") format("truetype");
   font-weight: normal;
 }
+
+@layer base {
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: theme("colors.amber.400");
+    border-radius: 0 9999px 9999px 0;
+  }
+}
