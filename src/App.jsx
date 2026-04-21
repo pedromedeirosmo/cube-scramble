@@ -108,38 +108,44 @@ export default function App() {
     >
       <Header />
       <Timer times={times} saveBestTime={saveBestTime} />
-      <ScrambleDisplay scramble={scramble} movements={movements} />
-      <BestTimes times={times} bestTime={bestTime} openConfirm={openConfirm} />
-      <ScrambleLenght updatingMovements={updatingMovements} />
-      <NewScramble newScramble={newScramble} movements={movements} />
-      <p className="text-gray-600 text-xs mt-8 hidden sm:block">
+      <p className="text-gray-600 text-sm mt-4 mb-2 hidden sm:block">
         Pressione ESPAÇO para iniciar/parar o timer
       </p>
-      <p className="text-gray-600 text-xs mt-8 block sm:hidden text-balance text-center">
+      <p className="text-gray-600 text-xs mt-4 mb-2 block sm:hidden text-balance text-center">
         Pressione o CONTADOR para iniciar/parar o timer
       </p>
+      <ScrambleDisplay scramble={scramble} movements={movements} />
+      <ScrambleLenght updatingMovements={updatingMovements} />
+      <BestTimes times={times} bestTime={bestTime} openConfirm={openConfirm} />
+      <NewScramble newScramble={newScramble} movements={movements} />
       <div
-        className={`${isConfirming ? "flex" : "hidden"} w-fit max-w-75 sm:max-w-fit text-lg h-fit flex-col gap-2 absolute bg-gray-900 rounded-xl p-4 border border-gray-800`}
+        className={`${
+          isConfirming ? "flex" : "hidden"
+        } fixed inset-0 bg-black/40 backdrop-blur-sm items-center justify-center z-50`}
       >
-        Tem certeza que deseja limpar os tempos?
-        <div className="flex justify-center gap-10">
-          <button
-            onClick={() => {
-              clearTimes();
-              closeConfirm();
-            }}
-            className="px-2 py-1 rounded-lg bg-green-700 transition-all active:scale-90 hover:cursor-pointer hover:scale-105"
-          >
-            SIM
-          </button>
-          <button
-            onClick={() => {
-              closeConfirm();
-            }}
-            className="px-2 py-1 rounded-lg bg-red-700 transition-all active:scale-95 hover:cursor-pointer hover:scale-105"
-          >
-            NÃO
-          </button>
+        <div
+          className={`${isConfirming ? "flex" : "hidden"} w-fit max-w-75 sm:max-w-fit text-lg h-fit flex-col gap-2 absolute bg-gray-900 rounded-xl p-4 border border-gray-800`}
+        >
+          Tem certeza que deseja limpar os tempos?
+          <div className="flex justify-center gap-10">
+            <button
+              onClick={() => {
+                clearTimes();
+                closeConfirm();
+              }}
+              className="px-4 py-2 rounded-lg bg-green-700 font-black text-sm tracking-widest uppercase transition-all active:scale-95 hover:cursor-pointer hover:scale-105"
+            >
+              sim
+            </button>
+            <button
+              onClick={() => {
+                closeConfirm();
+              }}
+              className="px-4 py-2 rounded-lg bg-red-700 font-black text-sm tracking-widest uppercase transition-all active:scale-95 hover:cursor-pointer hover:scale-105"
+            >
+              NÃO
+            </button>
+          </div>
         </div>
       </div>
     </div>

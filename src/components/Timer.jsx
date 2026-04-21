@@ -102,7 +102,7 @@ export default function Timer({ saveBestTime }) {
       </div>
       <div className="text-center flex-1">
         <div
-          className={`text-8xl sm:text-6xl leading-none font-[Digital] sm:text-white ${textColor()} select-none`}
+          className={`text-9xl text-50 sm:text-7xl text- leading-none font-[Digital] sm:text-white ${textColor()} select-none`}
         >
           {formattedTime}
         </div>
