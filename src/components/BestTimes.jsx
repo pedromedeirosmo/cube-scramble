@@ -1,5 +1,12 @@
 export default function BestTimes({ times, bestTime, openConfirm }) {
   if (times.length === 0) return null;
+  function formatTime(times) {
+    const minutes = Math.floor(times / 60000);
+    const seconds = Math.floor((times % 60000) / 1000);
+    const milliseconds = Math.floor((times % 1000) / 10);
+
+    return `${minutes}:${String(seconds).padStart(2, "0")},${String(milliseconds).padStart(2, "0")}`;
+  }
 
   return (
     <div className="text-center mb-5">
@@ -11,7 +18,7 @@ export default function BestTimes({ times, bestTime, openConfirm }) {
         </div>
         {bestTime !== null && (
           <div className="text-base sm:text-lg text-amber-400 mb-2 font-bold">
-            MELHOR: {bestTime.toFixed(2).replace(".", ",")}
+            MELHOR: {formatTime(bestTime)}
           </div>
         )}
         <div className="flex flex-col items-center gap-1 w-full">
@@ -25,10 +32,10 @@ export default function BestTimes({ times, bestTime, openConfirm }) {
                     : "text-gray-300"
                 }`}
               >
-                <span>{time.toFixed(2).replace(".", ",")}</span>
+                <span>{formatTime(time)}</span>
                 {bestTime !== null && time !== bestTime && (
                   <span className="text-gray-500 text-sm sm:text-base">
-                    (+{(time - bestTime).toFixed(2).replace(".", ",")})
+                    (+{formatTime(time - bestTime)})
                   </span>
                 )}
               </span>

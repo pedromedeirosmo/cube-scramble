@@ -78,14 +78,10 @@ export default function App() {
   const [bestTime, setBestTime] = useState(null);
 
   function saveBestTime(time) {
-    let newTime = time / 1000;
-    setTimes((prev) => [newTime, ...prev]);
+    setTimes((prev) => [time, ...prev]);
 
-    if (bestTime === null) {
-      // Nao tiver valor ainda
-      setBestTime(newTime);
-    } else if (newTime < bestTime) {
-      setBestTime(newTime);
+    if (bestTime === null || time < bestTime) {
+      setBestTime(time);
     }
   }
   function clearTimes() {
