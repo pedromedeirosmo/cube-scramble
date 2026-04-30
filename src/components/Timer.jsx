@@ -82,9 +82,17 @@ export default function Timer({ saveBestTime }) {
     if (status === "ready") return "text-green-800";
   }
 
-  const formattedTime = (timer / 1000)
-    .toFixed(running ? 1 : 2)
-    .replace(".", ",");
+  const minutes = Math.floor(timer / 60000);
+  const seconds = Math.floor((timer % 60000) / 1000);
+
+  // milissegundos → 1 ou 2 casas dependendo do estado
+  const decimals = running
+    ? Math.floor((timer % 1000) / 100) // 1 dígito (décimos)
+    : Math.floor((timer % 1000) / 10); // 2 dígitos (centésimos)
+
+  const formattedTime = running
+    ? `${minutes}:${String(seconds).padStart(2, "0")},${decimals}`
+    : `${minutes}:${String(seconds).padStart(2, "0")},${String(decimals).padStart(2, "0")}`;
 
   return (
     <div
