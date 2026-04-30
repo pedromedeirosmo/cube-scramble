@@ -115,7 +115,10 @@ export default function App() {
         Pressione o CONTADOR para iniciar/parar o timer
       </p>
       <ScrambleDisplay scramble={scramble} movements={movements} />
-      <ScrambleLenght updatingMovements={updatingMovements} />
+      <ScrambleLenght
+        updatingMovements={updatingMovements}
+        newScramble={newScramble}
+      />
       <BestTimes times={times} bestTime={bestTime} openConfirm={openConfirm} />
       <NewScramble newScramble={newScramble} movements={movements} />
       <div

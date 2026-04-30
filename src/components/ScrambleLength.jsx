@@ -1,4 +1,4 @@
-export default function ScrambleDisplay({ updatingMovements }) {
+export default function ScrambleDisplay({ updatingMovements, newScramble }) {
   return (
     <div className="flex flex-col sm:flex-row items-center gap-2 mb-4">
       <span className="text-gray-500 text-lg">Movimentos:</span>
@@ -15,7 +15,10 @@ export default function ScrambleDisplay({ updatingMovements }) {
                 "bg-orange-400",
               ][i]
             }`}
-            onClick={() => updatingMovements(len)}
+            onClick={() => {
+              updatingMovements(len);
+              newScramble(len);
+            }}
           >
             {len}
           </button>
